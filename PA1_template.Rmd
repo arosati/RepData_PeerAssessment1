@@ -46,9 +46,9 @@ summary(rep)
 
 ## Are there differences in activity patterns between weekdays and weekends?
 While activity starts later in the day on the weekends, it is higher throughout the day than on weekdays.
-
-rep$week <- weekdays(rep$dates)
 ```{r}
+echo = TRUE
+rep$week <- weekdays(rep$dates)
 rep <- mutate(rep, weekpart = ifelse(week == "Saturday" | week=="Sunday", "weekend", "weekday"))
 str(rep)
 rep$weekpart <- as.factor(rep$weekpart)
