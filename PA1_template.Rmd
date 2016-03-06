@@ -27,6 +27,7 @@ mean(stepsByDay)
 median(stepsByDay)
 #median answer = 10395
 ```
+![plot of chunk meansteps](meansteps.png) 
 
 ## What is the average daily activity pattern?
 The 5-minute interval that, on average, contains the maximum number of steps is interval 835 (8:35am)
@@ -35,6 +36,7 @@ stepsByInterval <- tapply(data$steps, data$interval, mean, na.rm=TRUE)
 summary(stepsByInterval)
 sort(stepsByInterval)[length(stepsByInterval)]
 ```
+![plot of chunk totalsteps](totalsteps.png) 
 
 ## Imputing missing values
 I used the na.aggregate from the Zoo library to impute missing step values.
