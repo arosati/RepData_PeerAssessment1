@@ -7,14 +7,12 @@ output: arosati/RepData_PeerAssessment1 forked from rdpeng/RepData_PeerAssessmen
 
 
 ## Loading and preprocessing the data
-# Get the data from my working directory
 rep <- read.csv("activity.csv")
 library(ggplot2)
 library(dplyr)
 library(knitr)
 
 ## Tidying data
-# make date column Dates instead of Factor
 rep$date <- as.character(rep$date)
 rep$dates <- as.Date(rep$date, "%Y-%m-%d")
 
@@ -24,28 +22,25 @@ data<-na.omit(rep)
 stepsByDay <- tapply(rep$steps, rep$date, sum, na.rm=TRUE)
 barplot(stepsByDay)
 mean(stepsByDay)
-# answer = 9354.23
+answer = 9354.23
 median(stepsByDay)
-# answer = 10395
+answer = 10395
 
 
 ## What is the average daily activity pattern?
-#The 5-minute interval that, on average, contains the maximum number of steps
+The 5-minute interval that, on average, contains the maximum number of steps is interval 835 (8:35am)
 stepsByInterval <- tapply(data$steps, data$interval, mean, na.rm=TRUE)
 summary(stepsByInterval)
 sort(stepsByInterval)[length(stepsByInterval)]
-#answer is interval 835
 
 
 ## Imputing missing values
-#Code to describe and show a strategy for imputing missing data
 library(zoo)
 rep$steps<-na.aggregate(rep$steps)
 summary(rep)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-#Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 rep$week <- weekdays(rep$dates)
 rep <- mutate(rep, weekpart = ifelse(week == "Saturday" | week=="Sunday", "weekend", "weekday"))
 str(rep)
