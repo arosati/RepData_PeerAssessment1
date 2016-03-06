@@ -61,3 +61,4 @@ ggplot(byDay, aes(interval, steps)) +
     xlab("5-minute Interval") + 
     ylab("Mean Steps")
 ```
+![plot of chunk weekpart.png](weekpart.png) 
