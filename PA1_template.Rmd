@@ -8,6 +8,7 @@ output: arosati/RepData_PeerAssessment1 forked from rdpeng/RepData_PeerAssessmen
 
 ## Loading and preprocessing the data
 I used read.csv to load the data from my working directory. I loaded ggplot2, dplyr, zoo and knitr.
+echo=TRUE
 rep <- read.csv("activity.csv")
 
 ## Tidying data
