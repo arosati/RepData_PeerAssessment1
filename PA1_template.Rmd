@@ -1,25 +1,61 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
+output: arosati/RepData_PeerAssessment1 forked from rdpeng/RepData_PeerAssessment1
+  html_document: Reproducible_CourseraHwk1.html
     keep_md: true
 ---
 
 
 ## Loading and preprocessing the data
+# Get the data from my working directory
+rep <- read.csv("activity.csv")
+library(ggplot2)
+library(dplyr)
+library(knitr)
 
+## Tidying data
+# make date column Dates instead of Factor
+rep$date <- as.character(rep$date)
+rep$dates <- as.Date(rep$date, "%Y-%m-%d")
 
+data<-na.omit(rep)
 
 ## What is mean total number of steps taken per day?
-
+stepsByDay <- tapply(rep$steps, rep$date, sum, na.rm=TRUE)
+barplot(stepsByDay)
+mean(stepsByDay)
+# answer = 9354.23
+median(stepsByDay)
+# answer = 10395
 
 
 ## What is the average daily activity pattern?
-
+#The 5-minute interval that, on average, contains the maximum number of steps
+stepsByInterval <- tapply(data$steps, data$interval, mean, na.rm=TRUE)
+summary(stepsByInterval)
+sort(stepsByInterval)[length(stepsByInterval)]
+#answer is interval 835
 
 
 ## Imputing missing values
-
+#Code to describe and show a strategy for imputing missing data
+library(zoo)
+rep$steps<-na.aggregate(rep$steps)
+summary(rep)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+#Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
+rep$week <- weekdays(rep$dates)
+rep <- mutate(rep, weekpart = ifelse(week == "Saturday" | week=="Sunday", "weekend", "weekday"))
+str(rep)
+rep$weekpart <- as.factor(rep$weekpart)
+
+byDay<-aggregate(steps ~ interval+weekpart, data = rep, mean)
+head(byDay)
+
+ggplot(byDay, aes(interval, steps)) + 
+    geom_line() + 
+    facet_grid(weekpart ~ .) +
+    xlab("5-minute Interval") + 
+    ylab("Mean Steps")
